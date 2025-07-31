@@ -28,15 +28,17 @@ async def convert_text_to_csv(text: str = Form(...)):
         lines = text.strip().split("\n")
         headers = lines[0].split(",")
         data = [dict(zip(headers, line.split(","))) for line in lines[1:]]
+        print("Parsed Data:", data)
 
         # Convert to CSV
         df = pd.DataFrame(data)
         csv_buffer = StringIO()
         df.to_csv(csv_buffer, index=False)
-
+        print("CSV Content:\n", csv_buffer.getvalue())
         # Upload to S3
         filename = f"{uuid.uuid4()}.csv"
         upload_to_s3(csv_buffer.getvalue(), filename)
+        return {"message": "CSV uploaded to S3"}
 
         return JSONResponse(status_code=200, content={"message": "CSV uploaded", "filename": filename})
     except Exception as e:
