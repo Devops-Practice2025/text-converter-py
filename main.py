@@ -5,6 +5,9 @@ import pandas as pd
 from io import StringIO
 import uuid
 import os
+from dotenv import load_dotenv
+load_dotenv()
+
 
 app = FastAPI()
 
@@ -20,6 +23,12 @@ def upload_to_s3(csv_data: str, filename: str):
                       region_name=S3_REGION)
 
     s3.put_object(Bucket=S3_BUCKET, Key=filename, Body=csv_data)
+    try:
+        s3.put_object(Bucket=bucket_name, Key=object_name, Body=csv_buffer.getvalue())
+    except Exception as e:
+        print("S3 Upload Error:", e)
+        return {"error": str(e)}
+
 
 @app.post("/convert")
 async def convert_text_to_csv(text: str = Form(...)):
