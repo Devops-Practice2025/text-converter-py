@@ -12,4 +12,13 @@
     owner: ec2-user
     group: ec2-user
     mode: '0755'
-  
+
+- name: Copy App files to server
+  copy:
+    src: app/
+    dest: /opt/convert-txt-csv
+    owner: ec2-user
+    group: ec2-user
+    mode: '0755'
+
+
