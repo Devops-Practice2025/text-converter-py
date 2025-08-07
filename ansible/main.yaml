@@ -1,5 +1,6 @@
-name: install python
-hosts: all 
-task_from: roles
-  - api
+ -  name: Text to CSV converter api Deployment
+    hosts: app-node
+    become: yes
+    roles:
+      - api
 
