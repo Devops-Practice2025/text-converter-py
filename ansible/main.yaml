@@ -1,0 +1,5 @@
+name: install python
+hosts: all 
+task_from: roles
+  - api
+
