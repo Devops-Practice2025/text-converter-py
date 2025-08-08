@@ -20,3 +20,23 @@
     owner: ec2-user
     group: ec2-user
     mode: '0755'
+
+- name: Install requirements
+  pip:
+    requirements: /opt/convert-txt-csv/requirements.txt
+    executable: pip3
+
+- name: Copy service file to /etc/
+  copy:
+    src: /opt/convert-txt-csv/service.conf
+    dest: /etc/systemd/system/convert-txt-csv.service
+    mode: "755"
+  notify: Reload systemdeamon
+
+- name: Restart converter-txt-csv service
+  systemd:
+    name: convert-txt-csv
+    state: started
+
+
+
