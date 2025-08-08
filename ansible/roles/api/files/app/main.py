@@ -52,3 +52,6 @@ async def convert_text_to_csv(text: str = Form(...)):
         return JSONResponse(status_code=200, content={"message": "CSV uploaded", "filename": filename})
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
+
+
+#curl -X POST http://localhost:8000/convert  -F "text=name,age,city\nAlice,30,New York\nBob,25,London"
